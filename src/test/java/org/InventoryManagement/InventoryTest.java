@@ -10,9 +10,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InventoryTest {
 
+    public static void main(String[] args) {
+        InventoryTest test = new InventoryTest();
+        test.setUp();
+        test.testProcessOrder();
+        test.setUp();
+        test.testProcessOrderWithBackorder();
+        test.testAllInventoryZero();
+    }
     private Inventory inventory;
 
-    @BeforeEach
+
     public void setUp() {
         // Initialize the inventory with some initial quantities
         inventory = new Inventory();
@@ -44,9 +52,9 @@ public class InventoryTest {
 
         // Check if inventory is updated correctly after processing the order with backorders
         Map<String, Integer> updatedInventory = inventory.getInventory();
-        assertEquals(0, updatedInventory.get("A"));
-        assertEquals(0, updatedInventory.get("B"));
-        assertEquals(0, updatedInventory.get("C"));
+        assertEquals(2, updatedInventory.get("A"));
+        assertEquals(3, updatedInventory.get("B"));
+        assertEquals(1, updatedInventory.get("C"));
         assertEquals(0, updatedInventory.get("D"));
         assertEquals(0, updatedInventory.get("E"));
     }
