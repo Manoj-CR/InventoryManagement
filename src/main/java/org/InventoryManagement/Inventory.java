@@ -9,6 +9,10 @@ public class Inventory {
     Map<String, Integer> inventoryMap; // Current inventory levels for each product
     List<String> output; // List to store the output log
 
+    public Map<String, Integer> getInventory() {
+        return inventoryMap;
+    }
+
     Inventory() {
         // Initialize the inventory with the given starting quantities
         inventoryMap = new HashMap<>();
@@ -71,7 +75,7 @@ public class Inventory {
             output.add(result.toString());
 
             // Halt if all inventory is zero
-            return inventoryMap.values().stream().allMatch(qty -> qty == 0);
+            return allInventoryZero();
         }
 
         // Helper method to append quantities to the result string
@@ -89,4 +93,8 @@ public class Inventory {
                 System.out.println(line);
             }
         }
+
+    public boolean allInventoryZero() {
+        return inventoryMap.values().stream().allMatch(qty -> qty == 0);
+    }
 }

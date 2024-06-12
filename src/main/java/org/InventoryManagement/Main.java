@@ -10,7 +10,7 @@ public class Main {
         Inventory inventory = new Inventory(); // Create the inventory
         Queue<Order> orders = new LinkedList<>(); // Create a queue for orders
         Scanner scanner = new Scanner(System.in);
-        //intialize inventory data from user
+        //initialize inventory data from user
         System.out.println("Enter the initial inventory levels:");
         System.out.println("Enter the quantity of product A:");
         int a = scanner.nextInt();
@@ -48,9 +48,6 @@ public class Main {
             }
             orders.add(new Order(header, orderLines));
         }
-
-
-
         // Start order processing streams
         Thread streamOne = new Thread(new OrderStream(inventory, orders));
         Thread streamTwo = new Thread(new OrderStream(inventory, orders));
@@ -63,7 +60,6 @@ public class Main {
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
-
         // Print final output log
         inventory.printOutput();
     }
