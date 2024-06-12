@@ -6,18 +6,27 @@ import java.util.List;
 import java.util.Map;
 
 public class Inventory {
-    Map<String, Integer> inventory; // Current inventory levels for each product
+    Map<String, Integer> inventoryMap; // Current inventory levels for each product
     List<String> output; // List to store the output log
 
     Inventory() {
         // Initialize the inventory with the given starting quantities
-        inventory = new HashMap<>();
-        inventory.put("A", 2);
-        inventory.put("B", 3);
-        inventory.put("C", 1);
-        inventory.put("D", 0);
-        inventory.put("E", 0);
+        inventoryMap = new HashMap<>();
+        inventoryMap.put("A", 2);
+        inventoryMap.put("B", 3);
+        inventoryMap.put("C", 1);
+        inventoryMap.put("D", 0);
+        inventoryMap.put("E", 0);
         output = new ArrayList<>();
+    }
+    //initiaze inventory data from user
+
+    public void initializeInventoryData(int a, int b, int c, int d, int e) {
+        inventoryMap.put("A", a);
+        inventoryMap.put("B", b);
+        inventoryMap.put("C", c);
+        inventoryMap.put("D", d);
+        inventoryMap.put("E", e);
     }
         // Synchronized method to process an order
         synchronized boolean processOrder(Order order) {
@@ -34,11 +43,11 @@ public class Inventory {
                     break;
                 }
                 // Allocate quantity if available, otherwise backorder the remaining quantity
-                if (inventory.getOrDefault(product, 0) >= quantity) {
+                if (inventoryMap.getOrDefault(product, 0) >= quantity) {
                     allocated.put(product, quantity);
                 } else {
-                    allocated.put(product, inventory.getOrDefault(product, 0));
-                    backorder.put(product, quantity - inventory.getOrDefault(product, 0));
+                    allocated.put(product, inventoryMap.getOrDefault(product, 0));
+                    backorder.put(product, quantity - inventoryMap.getOrDefault(product, 0));
                     canFulfillOrder = false;
                 }
             }
@@ -46,7 +55,7 @@ public class Inventory {
             // Update inventory based on allocated quantities
             if (canFulfillOrder) {
                 for (Map.Entry<String, Integer> line : allocated.entrySet()) {
-                    inventory.put(line.getKey(), inventory.get(line.getKey()) - line.getValue());
+                    inventoryMap.put(line.getKey(), inventoryMap.get(line.getKey()) - line.getValue());
                 }
             }
 
@@ -62,7 +71,7 @@ public class Inventory {
             output.add(result.toString());
 
             // Halt if all inventory is zero
-            return inventory.values().stream().allMatch(qty -> qty == 0);
+            return inventoryMap.values().stream().allMatch(qty -> qty == 0);
         }
 
         // Helper method to append quantities to the result string
